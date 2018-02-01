@@ -1,0 +1,12 @@
+
+copy apk to device
+
+~/Android/Sdk/tools/bin/adb install -r /var/www/gologic/Mobile/mCognos/platforms/android/build/outputs/apk/android-debug.apk
+
+
+just build the apk
+cordova build android
+
+
+live reload in browser
+cordova run browser -- --lr

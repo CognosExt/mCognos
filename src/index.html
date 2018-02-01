@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>mCognos</title>
+  <!-- built style files will be auto injected -->
+</head>
+<body>
+  <!-- This is to support custom configuration URLs -->
+  <script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function(event) {
+  console.log('inside domcontentloaded');
+  var delay = 3000; //Your delay in milliseconds
+
+  setTimeout(function() {
+    //window.location = "home.html";
+  }, delay);
+  document.addEventListener('deviceready', onDeviceReady, false);
+
+  function onDeviceReady() {
+    // Now safe to use the Cordova API
+    console.log('inside ondeviceready');
+  }
+}); //end of document ready
+
+function handleOpenURL(url) {
+  setTimeout(function() {
+    if (typeof url !== 'undefined') {
+      console.log('received url: ' + url);
+      try {
+        var params = url.split('?');
+
+        if (params.length > 1) {
+          var values = params[1].split('&');
+
+          for (var i = 0; i < values.length; i++) {
+            var item = values[i].split('=');
+            if (item[0] == 'url') {
+              localStorage.setItem('cognosUrl', item[1]);
+              console.log('url = ', item);
+            }
+
+            if (item[0] == 'user') {
+              console.log('user = ', item[1]);
+              localStorage.setItem('cognosUser', item[1]);
+              localStorage.removeItem('password');
+            }
+
+            if (item[0] == 'folderid') {
+              console.log('folderid = ', item[1]);
+              localStorage.setItem('cognosRootfolder', item[1]);
+            }
+
+            var debug = '';
+            if (item[0] == 'debug') {
+              debug = item[1] == 'true';
+              console.log('debug = ', debug);
+              console.log('item ' + item[0] + ' is ' + item[1]);
+              localStorage.setItem('debug', debug);
+            }
+          }
+        }
+      } catch (e) {
+        console.log('Sorry, could not parse URL', e);
+      }
+    }
+  }, 0);
+}
+
+function isBrowser() {
+  return typeof window !== 'undefined' && typeof document !== 'undefined';
+}
+
+if (isBrowser()) {
+  handleOpenURL(document.URL);
+}
+</script>
+
+<div id="app"></div>
+<!-- built script files will be auto injected -->
+</body>
+</html>
